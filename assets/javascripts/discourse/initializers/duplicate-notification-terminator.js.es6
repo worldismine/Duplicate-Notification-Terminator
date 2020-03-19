@@ -29,7 +29,7 @@ function initWithApi(api) {
     }
   });
 
-  api.reopenWidget("user-notifications", {
+  api.reopenWidget("quick-access-notifications", {
     html(attrs, state) {
       if (!widgetSubbed) {
         this.appEvents.on(eventName, (nIds) => {
