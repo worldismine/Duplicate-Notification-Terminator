@@ -1,7 +1,7 @@
-{{#if topic.isPrivateMessage}}
+{{#if args.topic.isPrivateMessage}}
   {{#if currentUser.admin}}
     {{#if siteSettings.duplicate_notification_admin_btn_enabled}}
-      {{d-button  action=(action "wipeNotifications")
+      {{d-button  action=(action "wipeNotifications" args.topic.id)
                   class="btn-danger btn-large"
                   disabled=loading
                   label=(unless site.mobileView "duplicate_notification_terminator.wipe_notifications")
