@@ -1,5 +1,5 @@
 # name: duplicate-notification-terminator
-# version: 0.3.1
+# version: 0.3.2
 # author: Muhlis Cahyono (muhlisbc@gmail.com)
 # url: https://github.com/worldismine/Duplicate-Notification-Terminator
 

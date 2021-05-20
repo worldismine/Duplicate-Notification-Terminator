@@ -3,7 +3,7 @@ import NotificationsRoute from "discourse/routes/user-notifications";
 
 function initWithApi(api) {
   const messageBus  = api.container.lookup("message-bus:main");
-  const appEvents   = api.container.lookup("app-events:main");
+  const appEvents   = api.container.lookup("service:app-events");
   const eventName   = "duplicate-notification-terminator";
 
   let widgetSubbed;
