@@ -5,3 +5,7 @@ plugins:
   duplicate_notification_admin_btn_enabled:
     default: true
     client: true
+  duplicate_notification_group:
+    default: ''
+    type: group
+    client: true

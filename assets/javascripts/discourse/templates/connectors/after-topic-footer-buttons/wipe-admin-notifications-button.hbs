@@ -1,5 +1,5 @@
 {{#if args.topic.isPrivateMessage}}
-  {{#if currentUser.admin}}
+  {{#if currentUser.can_wipe_notifications}}
     {{#if siteSettings.duplicate_notification_admin_btn_enabled}}
       {{d-button  action=(action "wipeNotifications" args.topic.id)
                   class="btn-danger btn-large"

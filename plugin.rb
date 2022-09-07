@@ -1,6 +1,6 @@
 # name: duplicate-notification-terminator
-# version: 0.3.2
-# author: Muhlis Cahyono (muhlisbc@gmail.com)
+# version: 0.4
+# author: Communiteq and Muhlis Cahyono (muhlisbc@gmail.com)
 # url: https://github.com/worldismine/Duplicate-Notification-Terminator
 
 enabled_site_setting :duplicate_notification_terminator_enabled
@@ -12,11 +12,11 @@ end
 after_initialize do
   require_dependency "topics_controller"
   class ::TopicsController
-    before_action :ensure_admin, only: [:wipe_admin_notifications]
+    before_action :ensure_can_wipe_notifications, only: [:wipe_admin_notifications]
     after_action :read_all_notifications, only: [:show]
 
     def read_all_notifications
-      if @topic_view&.topic&.id && current_user&.staff? && SiteSetting.duplicate_notification_terminator_enabled
+      if @topic_view&.topic&.id && SiteSetting.duplicate_notification_terminator_enabled && Group.find_by_name(SiteSetting.duplicate_notification_group)&.users&.include?(current_user)
         n_ids = Notification
           .where(user_id: current_user.id, topic_id: @topic_view.topic.id, read: false)
           .pluck(:id)
@@ -39,11 +39,11 @@ after_initialize do
 
       topic = Topic.find(params[:id])
 
-      admins = User.where(admin: true)
-      admin_ids = admins.map(&:id)
+      users = Group.find_by_name(SiteSetting.duplicate_notification_group)&.users || []
+      user_ids = users.map(&:id).uniq
 
       n_ids = Notification
-        .where(user_id: admin_ids, topic_id: topic.id, read: false)
+        .where(user_id: user_ids, topic_id: topic.id, read: false)
         .pluck(:id)
 
       if n_ids.present?
@@ -51,13 +51,33 @@ after_initialize do
           .where(id: n_ids)
           .update_all(read: true)
 
-        MessageBus.publish("/duplicate-notification-terminator", n_ids, user_ids: admin_ids)
+        MessageBus.publish("/duplicate-notification-terminator", n_ids, user_ids: user_ids)
 
-        admins.each { |adm| adm.publish_notifications_state }
+        users.each { |u| u.publish_notifications_state }
       end
 
       render json: success_json
     end
+
+    def ensure_can_wipe_notifications
+      raise Discourse::InvalidAccess.new unless current_user && current_user.can_wipe_notifications
+    end
+  end
+
+  require_dependency "user"
+  class ::User
+    def can_wipe_notifications
+      return false unless SiteSetting.duplicate_notification_terminator_enabled
+      Group.find_by_name(SiteSetting.duplicate_notification_group)&.users&.include?(self)
+    end
+  end
+
+  add_to_serializer(:current_user, :can_wipe_notifications) {
+    object.can_wipe_notifications
+  }
+
+  add_to_serializer(:current_user, :include_can_wipe_notifications?) do
+    SiteSetting.duplicate_notification_terminator_enabled
   end
 
   Discourse::Application.routes.append {
