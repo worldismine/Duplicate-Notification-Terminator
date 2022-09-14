@@ -2,3 +2,4 @@ en:
   site_settings:
     duplicate_notification_terminator_enabled: "Enable duplicate notification terminator plugin"
     duplicate_notification_admin_btn_enabled: "Enable wipe admin notifications button?"
+    duplicate_notification_group: "Group of users for whom the wipe functionality is enabled."
