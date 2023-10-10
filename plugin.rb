@@ -1,5 +1,5 @@
 # name: duplicate-notification-terminator
-# version: 0.4
+# version: 3.1
 # author: Communiteq and Muhlis Cahyono (muhlisbc@gmail.com)
 # url: https://github.com/worldismine/Duplicate-Notification-Terminator
 
@@ -75,10 +75,6 @@ after_initialize do
   add_to_serializer(:current_user, :can_wipe_notifications) {
     object.can_wipe_notifications
   }
-
-  add_to_serializer(:current_user, :include_can_wipe_notifications?) do
-    SiteSetting.duplicate_notification_terminator_enabled
-  end
 
   Discourse::Application.routes.append {
     post "t/:id/wipe-admin-notifications" => "topics#wipe_admin_notifications"
