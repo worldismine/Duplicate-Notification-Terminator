@@ -28,20 +28,6 @@ function initWithApi(api) {
       }
     }
   });
-
-  api.reopenWidget("quick-access-notifications", {
-    html(attrs, state) {
-      if (!widgetSubbed) {
-        this.appEvents.on(eventName, (nIds) => {
-          this.refreshNotifications(state);
-        });
-
-        widgetSubbed = true;
-      }
-
-      return this._super(...arguments);
-    }
-  });
 }
 
 export default {
