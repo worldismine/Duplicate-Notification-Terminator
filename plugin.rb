@@ -1,6 +1,6 @@
 # name: duplicate-notification-terminator
-# version: 0.4
-# author: Communiteq and Muhlis Cahyono (muhlisbc@gmail.com)
+# version: 3.2
+# authors: Communiteq and Muhlis Cahyono
 # url: https://github.com/worldismine/Duplicate-Notification-Terminator
 
 enabled_site_setting :duplicate_notification_terminator_enabled
