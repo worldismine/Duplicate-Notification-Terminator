@@ -6,8 +6,6 @@ function initWithApi(api) {
   const appEvents   = api.container.lookup("service:app-events");
   const eventName   = "duplicate-notification-terminator";
 
-  let widgetSubbed;
-
   messageBus.subscribe("/duplicate-notification-terminator", (nIds) => {
     appEvents.trigger(eventName, nIds);
   });
