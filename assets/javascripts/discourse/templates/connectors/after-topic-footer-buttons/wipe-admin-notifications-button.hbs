@@ -1,10 +1,10 @@
-{{#if args.topic.isPrivateMessage}}
-  {{#if currentUser.can_wipe_notifications}}
-    {{#if siteSettings.duplicate_notification_admin_btn_enabled}}
-      {{d-button  action=(action "wipeNotifications" args.topic.id)
+{{#if this.args.topic.isPrivateMessage}}
+  {{#if this.currentUser.can_wipe_notifications}}
+    {{#if this.siteSettings.duplicate_notification_admin_btn_enabled}}
+      {{d-button  action=(action "wipeNotifications" this.args.topic.id)
                   class="btn-danger btn-large"
-                  disabled=loading
-                  label=(unless site.mobileView "duplicate_notification_terminator.wipe_notifications")
+                  disabled=this.loading
+                  label=(unless this.site.mobileView "duplicate_notification_terminator.wipe_notifications")
                   icon="bell-slash"}}
     {{/if}}
   {{/if}}
