@@ -1,5 +1,5 @@
 # name: discourse-duplicate-notification-terminator
-# version: 3.4
+# version: 2026.1
 # authors: Communiteq and Muhlis Cahyono
 # url: https://github.com/worldismine/Duplicate-Notification-Terminator
 
